@@ -1,0 +1,28 @@
+{
+  "name": "node-boilerplate",
+  "version": "1.0.0",
+  "description": "Boilerplate for any node project with Express framework",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AkibDeraiya123/Node-boilerplate-with-express.git"
+  },
+  "keywords": [
+    "Node-boilerplate",
+    "Express"
+  ],
+  "author": "Akib Deraiya",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/AkibDeraiya123/Node-boilerplate-with-express/issues"
+  },
+  "homepage": "https://github.com/AkibDeraiya123/Node-boilerplate-with-express#readme",
+  "dependencies": {
+    "express": "^4.16.3",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.1.5"
+  }
+}
