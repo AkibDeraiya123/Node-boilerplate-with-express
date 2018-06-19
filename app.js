@@ -1,12 +1,15 @@
 // Readymade modules
+const http = require('http');
 const express = require('express');
 const path = require('path');
 const logger = require('morgan');
 const bodyParser = require('body-parser');
 const expressSession = require('express-session');
 const expressValidator = require('express-validator');
+const cookieParser = require('cookie-parser');
 
 // Created Modules
+const config = require('./config');
 var Database = require('./DB/database');
 
 // Load dotenv config
@@ -24,16 +27,12 @@ if (!process.env.NODE_ENV || process.env.NODE_ENV === 'development') {
 const app = express();
 const server = http.createServer(app);
 
-app.set('views', path.join(__dirname, 'views'));
-app.set('view engine', 'pug');
-
-// app.use(express.bodyParser({uploadDir:'/public/images/profile/'}));
 app.use(expressSession({
-    secret: config.cypherKey,
-    resave: true,
-    cookie: {
-      sameSite:true,
-    }
+  secret: '1231sdf65s6df4',
+  resave: true,
+  cookie: {
+    sameSite:true,
+  }
 }));
 
 app.use(logger('dev'));
@@ -80,16 +79,18 @@ app.use((err, req, res) => {
 
 // db configuration
 Database.config(
-  config && config.mongodb && config.mongodb.address ? config.mongodb.address : '',
-  config && config.mongodb && config.mongodb.dbName ? config.mongodb.dbName : 'kryptonight',
-  config && config.mongodb && config.mongodb.options ? config.mongodb.options : undefined,
+  process.env.NODE_ENV === 'production' ? process.env.PROD_ADDRESS : process.env.DEV_ADDRESS,
+  process.env.NODE_ENV === 'production' ? process.env.PROD_DBNAME : process.env.DEV_DBNAME,
+  process.env.NODE_ENV === 'production' ? process.env.PROD_USERNAME : process.env.DEV_USERNAME,
+  process.env.NODE_ENV === 'production' ? process.env.PROD_PASSWORD : process.env.DEV_PASSWORD,
+  config && config.databaseOption ? config.databaseOption : undefined,
   function(err, message) {
     if (!err)
       console.info('Mongodb is connected');
     else
       console.error('Mongodb Error:' + message);
   }
-);
+  );
 
 server.listen(process.env.PORT);
 console.log(`Server started on port ${process.env.PORT}`);

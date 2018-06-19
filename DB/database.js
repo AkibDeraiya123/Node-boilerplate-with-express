@@ -6,11 +6,10 @@ var mongoose = require('mongoose');
 var db = function() {
   var initFlag = false;
   return {
-    config: function(addr, dbname, opts, callback) {
+    config: function(addr, dbname, dbUsername, dbPassword, opts, callback) {
       if( !initFlag ){
-        var connectUrl = 'mongodb://' + (addr ? addr : 'localhost:27017') + '/' + (dbname ? dbname : 'sbadmin');
+        const connectUrl = 'mongodb://'+ (dbUsername === '' ? '' : dbUsername) + (dbPassword === '' ? '' : `:${dbPassword}`) + (dbPassword !== '' && dbUsername !== '' ? `@${addr}` : addr ) + '/' + dbname;
         mongoose.connect(connectUrl, (opts ? opts : {}));
-        //mongoose.createConnection(connectUrl, (opts ? opts : {}));
 
         var db = mongoose.connection;
 

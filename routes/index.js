@@ -13,7 +13,8 @@ router.use(function(req, res, next) {
 
 module.exports = function(app){
 
-	router.use(require('./CommonRoutes'));
+	router.use(require('./UserRoutes'));
+	router.use(require('./PostRoutes'));
 
 	app.use('/api', router);
 }
