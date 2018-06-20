@@ -1,8 +1,5 @@
 var mongoose = require('mongoose');
 
-// @ TODO remove for production level.
-//mongoose.set('debug', true);
-
 var db = function() {
   var initFlag = false;
   return {
