@@ -3,7 +3,7 @@ const jwt  = require('jsonwebtoken');
 module.exports = {
 	signIn: async function(userData) {
 		return await jwt.sign(userData, process.env.cypherKey, {
-			expiresIn: process.env.tokenExpire
+			expiresIn: process.env.TOKENEXPIRETIME
 		})
 	},
 
