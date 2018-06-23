@@ -33,6 +33,9 @@
     "jsonwebtoken": "^8.3.0",
     "mongoose": "^5.1.6",
     "morgan": "^1.9.0",
-    "path": "^0.12.7"
+    "nodemailer": "^4.6.7",
+    "nodemailer-express-handlebars": "^3.0.0",
+    "path": "^0.12.7",
+    "randomstring": "^1.1.5"
   }
 }
