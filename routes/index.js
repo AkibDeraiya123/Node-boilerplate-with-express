@@ -1,8 +1,11 @@
-const express = require('express');
+const express = require("express");
+
 const router = express.Router();
+const UserRoutes = require("./UserRoutes");
+const PostRoutes = require("./PostRoutes");
 
 // middleware to use for all requests
-router.use(function(req, res, next) {
+router.use((req, res, next) => {
 	res.header("Access-Control-Allow-Origin", "*");
 	res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE");
 	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
@@ -11,10 +14,9 @@ router.use(function(req, res, next) {
 	next(); // make sure we go to the next routes and don't stop here
 });
 
-module.exports = function(app){
+module.exports = function (app) {
+	router.use(UserRoutes);
+	router.use(PostRoutes);
 
-	router.use(require('./UserRoutes'));
-	router.use(require('./PostRoutes'));
-
-	app.use('/api', router);
-}
+	app.use("/api", router);
+};

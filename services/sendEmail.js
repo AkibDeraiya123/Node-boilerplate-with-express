@@ -1,5 +1,5 @@
-const nodemailer = require('nodemailer');
-const mailerhbs = require('nodemailer-express-handlebars');
+const nodemailer = require("nodemailer");
+const mailerhbs = require("nodemailer-express-handlebars");
 
 // Case:- 1) You can use nodemailer-ses-transport and add aws creadentils
 // const ses = require('nodemailer-ses-transport');
@@ -26,60 +26,66 @@ const transporter = nodemailer.createTransport({
 	secure: process.env.SECURE,
 	auth: {
 		user: process.env.SMTPUSERNAME,
-		pass: process.env.PASSWORD
+		pass: process.env.PASSWORD,
 	},
 });
 
-transporter.use('compile', mailerhbs({
-    viewPath: 'emailTemplate', //Path to email template folder
-    extName: '.hbs' //extendtion of email template
+transporter.use("compile", mailerhbs({
+	viewPath: "emailTemplate", // Path to email template folder
+	extName: ".hbs", // extendtion of email template
 }));
 
-module.exports = {
-	seneWelcomeEmail: function(to, name, link) {
-		const params = {
-			from: process.env.WELCOMEEMAIL,
-			to,
-			subject: `Welcome to ${process.env.SITENAME} Confirm your email`,
-            template: 'welcome', //Name email file template
-          	context: { // pass variables to template
-          		name,
-          		email: to,
-          		link
-          	}
-        };
+const createParams = (from, to, subject, template, name, link) => ({
+	from,
+	to,
+	subject,
+	template, // Name email file template
+	context: { // pass variables to template
+		name,
+		email: to,
+		link,
+	},
+});
 
-        transporter.sendMail(params, function (error, response) {
-	        //Email not sent
-	        if (error) {
-	         	console.log(error);
-	         	console.log('Email not sent');
-	        } else {
-	         	console.log('Success sending email');
-	        }
-	    });	
-    },
-    resetPassword: function(to, name, link) {
-		const params = {
-			from: process.env.WELCOMEEMAIL,
-			to,
-			subject: `Reset password - ${process.env.SITENAME}`,
-            template: 'resetPassword', //Name email file template
-          	context: { // pass variables to template
-          		name,
-          		email: to,
-          		link
-          	}
-        };
+module.exports.seneWelcomeEmail = (to, name, link) => {
+	const params = createParams(
+		process.env.WELCOMEEMAIL,
+		to,
+		`Welcome to ${process.env.SITENAME} Confirm your email`,
+		"welcome",
+		name,
+		link,
+	);
+	console.log("params", params);
 
-        transporter.sendMail(params, function (error, response) {
-	        //Email not sent
-	        if (error) {
-	         	console.log(error);
-	         	console.log('Email not sent');
-	        } else {
-	         	console.log('Success sending email');
-	        }
-	    });	
-    },
-}
+	transporter.sendMail(params, (error, response) => {
+		// Email not sent
+		if (error) {
+			console.log(error);
+			console.log("Email not sent");
+		} else {
+			console.log("Success sending email");
+		}
+	});
+};
+
+module.exports.resetPassword = (to, name, link) => {
+	const params = createParams(
+		process.env.WELCOMEEMAIL,
+		to,
+		`Welcome to ${process.env.SITENAME} Confirm your email`,
+		"welcome",
+		name,
+		link,
+	);
+
+	transporter.sendMail(params, (error, response) => {
+		// Email not sent
+		if (error) {
+			console.log(error);
+			console.log("Email not sent");
+		} else {
+			console.log("Success sending email");
+		}
+	});
+};

@@ -4,6 +4,7 @@
   "description": "Boilerplate for any node project with Express framework",
   "main": "app.js",
   "scripts": {
+    "lint": "eslint ./ --fix",
     "start": "node app"
   },
   "repository": {
@@ -37,5 +38,10 @@
     "nodemailer-express-handlebars": "^3.0.0",
     "path": "^0.12.7",
     "randomstring": "^1.1.5"
+  },
+  "devDependencies": {
+    "eslint": "^4.19.1",
+    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-plugin-import": "^2.13.0"
   }
 }

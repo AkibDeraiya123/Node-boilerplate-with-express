@@ -1,23 +1,23 @@
 /** User Mongo DB model	*/
 
-var mongoose = require("mongoose");
+const mongoose = require("mongoose");
 
 const UserSchema = new mongoose.Schema({
 	firstName: { type: String, required: true },
- 	lastName: { type: String, required: true },
+	lastName: { type: String, required: true },
 	username: { type: String, required: true },
 	password: { type: String, required: true },
 	email: { type: String, required: true },
 	emailHash: { type: String, required: true },
-	emailConfirmation: { type: Boolean, default: false, },
+	emailConfirmation: { type: Boolean, default: false },
 	resetPasswordHash: { type: String },
-	createdAt: { 
-		type: Date, 
-		default: new Date()
+	createdAt: {
+		type: Date,
+		default: new Date(),
 	},
 	updatedAt: {
-		type: Date, 
-		default: new Date()
+		type: Date,
+		default: new Date(),
 	},
 });
 

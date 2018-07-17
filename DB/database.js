@@ -1,33 +1,31 @@
-var mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-var db = function() {
-  var initFlag = false;
-  return {
-    config: function(addr, dbname, dbUsername, dbPassword, opts, callback) {
-      if( !initFlag ){
-        const connectUrl = 'mongodb://'+ (dbUsername === '' ? '' : dbUsername) + (dbPassword === '' ? '' : `:${dbPassword}`) + (dbPassword !== '' && dbUsername !== '' ? `@${addr}` : addr ) + '/' + dbname;
-        mongoose.connect(connectUrl, (opts ? opts : {}));
+const db = function () {
+	let initFlag = false;
+	return {
+		config(addr, dbname, dbUsername, dbPassword, opts, callback) {
+			if (!initFlag) {
+				const connectUrl = `mongodb://${dbUsername === "" ? "" : dbUsername}${dbPassword === "" ? "" : `:${dbPassword}`}${dbPassword !== "" && dbUsername !== "" ? `@${addr}` : addr}/${dbname}`;
+				mongoose.connect(connectUrl, (opts || {}));
 
-        var db = mongoose.connection;
+				const dbConnection = mongoose.connection;
 
-        db.on('error', function(err) {
-          // Connection Error
-          console.log('Mongodb error encountered [' + err + ']');
+				dbConnection.on("error", (err) => {
+					// Connection Error
+					console.log(`Mongodb error encountered [${err}]`);
 
-          if (callback) {
-            callback('ERR-MONGODB', 'mongodb - '+err.message);
-          }
-        });
+					if (callback) {
+						callback("ERR-MONGODB", `mongodb - ${err.message}`);
+					}
+				});
 
-        db.once('open', function() {
-          initFlag = true;
-          if (callback) callback(null);
-        });
-      } else {
-        if (callback) callback(null);
-      }
-    }
-  };
+				dbConnection.once("open", () => {
+					initFlag = true;
+					if (callback) callback(null);
+				});
+			} else if (callback) callback(null);
+		},
+	};
 };
 
 module.exports = db();
